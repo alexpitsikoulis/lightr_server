@@ -1,0 +1,11 @@
+app:
+  port: 8000
+database:
+  host: localhost
+  port: 5432
+  username: "postgres"
+  password: "password"
+  database_name: "muttr"
+email_client:
+  base_url: "localhost"
+  sender_email: "no-reply@muttr.com"

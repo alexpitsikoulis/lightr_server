@@ -1,0 +1,42 @@
+{
+  "db": "PostgreSQL",
+  "83a9347437879a020488193335dff143643011115ac0eae1d2c28cc7e5702d53": {
+    "describe": {
+      "columns": [
+        {
+          "name": "confirmation_token",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "user_id",
+          "ordinal": 1,
+          "type_info": "Uuid"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT confirmation_token, user_id\n        FROM confirmation_tokens\n        WHERE\n            confirmation_token = $1;\n        "
+  },
+  "a14622cad33e4abb00ee31ec1fbf30a8d99367fe5d5693312782c2ae1e60b9cf": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n        DELETE FROM confirmation_tokens\n        WHERE\n            confirmation_token = $1 AND\n            user_id = $2;\n        "
+  }
+}
