@@ -20,7 +20,7 @@ pub const SIGNUP_PATH: &str = "/signup";
 
 #[derive(Serialize, Deserialize)]
 pub struct UserSignupFormData {
-    #[serde(default)]
+    #[serde(default = "Uuid::new_v4")]
     pub id: Uuid,
     pub email: Email,
     pub password: Password,

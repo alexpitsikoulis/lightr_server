@@ -1,3 +1,3 @@
 mod auth;
 
-pub use auth::AuthMiddleware;
+pub use auth::{AuthMiddleware, UserID};

@@ -6,5 +6,5 @@ database:
   port: 5432
   username: "postgres"
   password: "password"
-  database_name: "muttr"
+  database_name: "lightr"
   require_ssl: false

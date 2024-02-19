@@ -43,7 +43,7 @@ impl UserValidationError {
 
 #[derive(Serialize, Deserialize, FromRow, Clone, Debug)]
 pub struct User {
-    #[serde(default)]
+    #[serde(default = "Uuid::new_v4")]
     id: Uuid,
     email: Email,
     password: Password,

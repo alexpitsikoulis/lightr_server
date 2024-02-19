@@ -4,8 +4,10 @@ use crate::{
     handlers::{
         health_check::{health_check, HEALTH_CHECK_PATH},
         user::{confirm, login, signup, CONFIRM_PATH, LOGIN_PATH, SIGNUP_PATH, USER_BASE_PATH},
+        websockets::ChatManager,
     },
 };
+use actix::{Actor, Addr};
 use actix_web::{
     dev::Server,
     web::{get, post, scope, Data},
@@ -44,7 +46,8 @@ impl App {
 
         let listener = TcpListener::bind(address)?;
         let port = listener.local_addr().unwrap().port();
-        let server = Self::run(listener, db_pool, email_client)?;
+        let chat_manager = ChatManager::new().start();
+        let server = Self::run(listener, db_pool, email_client, chat_manager)?;
 
         Ok(Self { port, server })
     }
@@ -53,9 +56,11 @@ impl App {
         listener: TcpListener,
         db_pool: PgPool,
         email_client: email::Client,
+        chat_manager: Addr<ChatManager>,
     ) -> Result<Server, std::io::Error> {
         let db_pool = Data::new(db_pool);
         let email_client = Data::new(email_client);
+        let chat_manager = Data::new(chat_manager);
 
         let server = HttpServer::new(move || {
             actix_web::App::new()
@@ -70,11 +75,13 @@ impl App {
                             post().to(confirm),
                         ),
                 )
+                .route("/chat", get().to(ChatManager::chat_route))
                 .app_data(db_pool.clone())
                 .app_data(email_client.clone())
+                .app_data(chat_manager.clone())
         })
         .listen(listener)?
-        .run();
+    .run();
         Ok(server)
     }
 

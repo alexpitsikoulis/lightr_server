@@ -20,6 +20,12 @@ impl UserID {
     }
 }
 
+impl Into<Uuid> for &UserID {
+    fn into(self) -> Uuid {
+        self.0
+    }
+}
+
 pub struct AuthMiddleware;
 
 impl<S> Transform<S, ServiceRequest> for AuthMiddleware

@@ -4,7 +4,7 @@ use crate::utils::{
 };
 use lightr_server::handlers::user::{CONFIRM_PATH, USER_BASE_PATH};
 
-#[tokio::test]
+#[actix::test]
 pub async fn test_confirm_success() {
     let mut app = TestApp::spawn().await;
 
